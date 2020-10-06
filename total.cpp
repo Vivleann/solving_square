@@ -60,7 +60,7 @@ int solving_sq(double a, double b, double c, double *x1, double *x2)
     if (double_equals(a, 0))
     {
         *x1 = -c/b;
-        printf("The equation has one solution x= \n",*x1); 
+        printf("The equation has one solution x= %d\n",*x1); 
         
         return 1;
     }
@@ -76,35 +76,33 @@ int solving_sq(double a, double b, double c, double *x1, double *x2)
     *x1 = (-b - sqrt(D))/(2 * a);
     *x2 = (-b + sqrt(D))/(2 * a);
      
-    
-    printf("1 sol = %lf \n", *x1);
-    printf("2 sol = %lf\n", *x2);
+    return 2;
     
      
 }
 
-#define TEST(call, ref, correct_x3, correct_x4)                         \
-{                                                                       \
-    int res = call;                                                     \
-    if (res != ref)                                                     \
-    {                                                                   \
-        printf("Test1 failed on line %d: %d == %d \n", __LINE__, res, ref);     \
-    }                                                                   \ 
-    else if (ref == 2)                                                  \
-    {                                                                   \
-        if (x3 != correct_x3 || x4 != correct_x4)                     \
-        {                                                                   \
-            printf("Test4 is Wrong\n");                                     \
-        }                                                               \   
-        else{                                                           \
-            printf("Test is Correct\n");                                \
-        }                                                               \
-    }                                                                   \
-    else                                                                \
-    {                                                                   \
-        printf("Test is Correct\n");                                       \
-    }                                                                   \
-}                                                                       \
+#define TEST(call, ref, correct_x3, correct_x4, test_num)                         		\
+{                                                                       		\
+    int res = call;                                                     		\
+    if (res != ref)                                                     		\
+    {                                                                   		\
+        printf("Test %d failed on line %d: %d != %d \n", test_num, __LINE__, res, ref);     \
+    }                                                                   		\ 
+    else if (ref == 2)                                                  		\
+    {                                                                   		\
+        if (x3 != correct_x3 || x4 != correct_x4)                     			\
+        {                                                                   	\
+            printf("Test %d is Wrong on line %d: \n", test_num, __LINE__);      \                             	
+        }                                                               		\   
+        else{                                                           		\
+            printf("Test %d is Correct\n", test_num);                           \
+        }                                                               		\
+    }                                                                   		\
+    else                                                                		\
+    {                                                                   		\
+        printf("Test %d is Correct\n", test_num);                               \
+    }                                                                   		\
+}                                                                       		\
 
 /*!
      \brief Тестовая проверка основных случаев решения квадратного уравнения
@@ -114,10 +112,11 @@ int solving_sq(double a, double b, double c, double *x1, double *x2)
 void test_solving_sq()
 {   
     double x3 = NAN, x4 = NAN;
-    TEST(solving_sq(0, 0, 0, &x3, &x4), -1, 0, 0);
-    TEST(solving_sq(0, 2, -5, &x3, &x4), 1, 0, 0);
-    TEST(solving_sq(5, 2, 6, &x3, &x4), 0, 0, 0);
-    TEST(solving_sq(5, 2, 6, &x3, &x4), 0, 2, 3);
+    TEST(solving_sq(0, 0, 0, &x3, &x4), -1, 0, 0, 1);
+    TEST(solving_sq(0, 2, -5, &x3, &x4), 1, 0, 0, 2);
+    TEST(solving_sq(5, 2, 6, &x3, &x4), 0, 0, 0, 3);
+    TEST(solving_sq(1, -5, 6, &x3, &x4), 2, 2, 3, 4);
+    
     
 }
  
